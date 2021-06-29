@@ -2,14 +2,16 @@ package routes
 
 import (
 	"api/controllers"
+	"api/utils"
 	"database/sql"
-	"encoding/json"
 	"net/http"
+	"strconv"
 )
 
 func CreateMagazine(db *sql.DB) http.HandlerFunc {
 	return func(rw http.ResponseWriter, r *http.Request) {
 		id := controllers.CreateMagazine(r, db)
-		json.NewEncoder(rw).Encode(id)
+		idS := strconv.Itoa(id)
+		utils.JsonResponse(idS, true, rw)
 	}
 }

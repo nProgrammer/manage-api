@@ -19,3 +19,12 @@ func GetMagazinesDB(db *sql.DB, magazine models.Magazine, magazines []models.Mag
 	}
 	return magazines
 }
+
+func ReserveMagazineDB(db *sql.DB, magazine models.Magazine) int64 {
+	result, _ := db.Exec("update magazines set holder=$1, isReserved=$2, dateTillReserves=$3 where compID=$4",
+		&magazine.Holder, &magazine.IsReserved, &magazine.DateTillReserved, &magazine.CompanyID)
+
+	rowsUpd, _ := result.RowsAffected()
+
+	return rowsUpd
+}
