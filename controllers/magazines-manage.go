@@ -3,6 +3,7 @@ package controllers
 import (
 	"api/models"
 	"api/repositories"
+	"api/utils"
 	"database/sql"
 	"encoding/json"
 	"net/http"
@@ -31,5 +32,17 @@ func GetReservedMagazines(db *sql.DB, rw http.ResponseWriter) {
 	var magazines []models.Magazine
 	var magazine models.Magazine
 	magazines = repositories.GetReservedMagazinesDB(db, magazine, magazines)
+	json.NewEncoder(rw).Encode(magazines)
+}
+
+func DeleteMagazineCT(db *sql.DB, rw http.ResponseWriter, compID string) {
+	text := "Deleted " + compID
+	repositories.DeleteMagazineDB(db, compID)
+	utils.JsonResponse(text, true, rw)
+}
+
+func FindMagazineCT(db *sql.DB, magazineToFind models.Magazine, rw http.ResponseWriter) {
+	var magazines []models.Magazine
+	magazines = repositories.FindMagazinesDB(db, magazineToFind, magazines)
 	json.NewEncoder(rw).Encode(magazines)
 }

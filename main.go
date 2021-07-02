@@ -29,6 +29,8 @@ func main() {
 	r.HandleFunc("/createMagazine", routes.CreateMagazine(db)).Methods("POST")
 	r.HandleFunc("/reserveMagazine", routes.ReserveMagazine(db)).Methods("PUT")
 	r.HandleFunc("/getReservedMagazine", routes.GetReservedMagazines(db)).Methods("GET")
+	r.HandleFunc("/removeMagazine/{compID}", routes.DeleteMagazine(db)).Methods("DELETE")
+	r.HandleFunc("/findMagazine", routes.FindMagazines(db)).Methods("POST")
 
 	log.Fatal(http.ListenAndServe(":8080", r))
 }

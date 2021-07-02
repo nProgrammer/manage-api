@@ -37,3 +37,19 @@ func ReserveMagazineDB(db *sql.DB, magazine models.Magazine) int64 {
 
 	return rowsUpd
 }
+
+func DeleteMagazineDB(db *sql.DB, compID string) {
+	result, _ := db.Exec("delete from magazines where compID=$1", compID)
+
+	result.RowsAffected()
+}
+
+func FindMagazinesDB(db *sql.DB, magazineToFind models.Magazine, magazines []models.Magazine) []models.Magazine {
+	var magazine models.Magazine
+	rows, _ := db.Query("select * from magazines where price=$1;", magazineToFind.Price)
+	for rows.Next() {
+		_ = rows.Scan(&magazine.ID, &magazine.Holder, &magazine.IsReserved, &magazine.Price, &magazine.DateTillReserved, &magazine.CompanyID)
+		magazines = append(magazines, magazine)
+	}
+	return magazines
+}

@@ -1,6 +1,7 @@
 package config
 
 import (
+	"api/utils"
 	"database/sql"
 	"fmt"
 	"os"
@@ -11,9 +12,11 @@ import (
 var db *sql.DB
 
 func ConnectDB() *sql.DB {
-	pgUrl, _ := pq.ParseURL(os.Getenv("ELEPHANT_URL"))
+	pgUrl, err := pq.ParseURL(os.Getenv("ELEPHANT_URL"))
+	utils.ErrorM(err)
 	fmt.Println(os.Getenv("ELEPHANT_URL"))
-	db, _ = sql.Open("postgres", pgUrl)
+	db, err = sql.Open("postgres", pgUrl)
+	utils.ErrorM(err)
 	db.Ping()
 
 	return db
