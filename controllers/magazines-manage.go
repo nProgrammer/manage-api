@@ -23,6 +23,13 @@ func GetMagazine(db *sql.DB, rw http.ResponseWriter) {
 	json.NewEncoder(rw).Encode(magazines)
 }
 
+func GetMagazineCT(db *sql.DB, rw http.ResponseWriter, id string) {
+	var magazines []models.Magazine
+	var magazine models.Magazine
+	magazines = repositories.GetMagazineDB(db, magazine, magazines, id)
+	json.NewEncoder(rw).Encode(magazines)
+}
+
 func ReserveMagazineCT(db *sql.DB, magazine models.Magazine) int64 {
 	rowsUpd := repositories.ReserveMagazineDB(db, magazine)
 	return rowsUpd

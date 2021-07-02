@@ -20,6 +20,15 @@ func GetMagazinesDB(db *sql.DB, magazine models.Magazine, magazines []models.Mag
 	return magazines
 }
 
+func GetMagazineDB(db *sql.DB, magazine models.Magazine, magazines []models.Magazine, id string) []models.Magazine {
+	rows, _ := db.Query("select * from magazines where compID=$1;", id)
+	for rows.Next() {
+		_ = rows.Scan(&magazine.ID, &magazine.Holder, &magazine.IsReserved, &magazine.Price, &magazine.DateTillReserved, &magazine.CompanyID)
+		magazines = append(magazines, magazine)
+	}
+	return magazines
+}
+
 func GetReservedMagazinesDB(db *sql.DB, magazine models.Magazine, magazines []models.Magazine) []models.Magazine {
 	rows, _ := db.Query("select * from magazines where holder != '';")
 	for rows.Next() {

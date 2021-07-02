@@ -32,6 +32,7 @@ func main() {
 	r.HandleFunc("/reserveMagazine", routes.ReserveMagazine(db, authDB)).Methods("PUT")
 	r.HandleFunc("/getReservedMagazine", routes.GetReservedMagazines(db, authDB)).Methods("GET")
 	r.HandleFunc("/removeMagazine/{compID}", routes.DeleteMagazine(db, authDB)).Methods("DELETE")
+	r.HandleFunc("/getMagazine/{compID}", routes.GetMagazine(db, authDB)).Methods("GET")
 	r.HandleFunc("/findMagazine", routes.FindMagazines(db, authDB)).Methods("POST")
 
 	log.Fatal(http.ListenAndServe(":8080", r))
