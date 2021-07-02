@@ -5,6 +5,7 @@ import (
 	"api/config"
 	"api/models"
 	"api/routes"
+	"api/utils"
 	"database/sql"
 	"fmt"
 	"log"
@@ -22,15 +23,16 @@ func main() {
 	godotenv.Load()
 	fmt.Println("Welcome")
 	db = config.ConnectDB()
+	authDB := utils.AuthorizeFunc(db)
 	fmt.Println(db)
 	r := mux.NewRouter()
 
-	r.HandleFunc("/getMagazines", routes.GetAllMagazines(db)).Methods("GET")
-	r.HandleFunc("/createMagazine", routes.CreateMagazine(db)).Methods("POST")
-	r.HandleFunc("/reserveMagazine", routes.ReserveMagazine(db)).Methods("PUT")
-	r.HandleFunc("/getReservedMagazine", routes.GetReservedMagazines(db)).Methods("GET")
-	r.HandleFunc("/removeMagazine/{compID}", routes.DeleteMagazine(db)).Methods("DELETE")
-	r.HandleFunc("/findMagazine", routes.FindMagazines(db)).Methods("POST")
+	r.HandleFunc("/getMagazines", routes.GetAllMagazines(db, authDB)).Methods("GET")
+	r.HandleFunc("/createMagazine", routes.CreateMagazine(db, authDB)).Methods("POST")
+	r.HandleFunc("/reserveMagazine", routes.ReserveMagazine(db, authDB)).Methods("PUT")
+	r.HandleFunc("/getReservedMagazine", routes.GetReservedMagazines(db, authDB)).Methods("GET")
+	r.HandleFunc("/removeMagazine/{compID}", routes.DeleteMagazine(db, authDB)).Methods("DELETE")
+	r.HandleFunc("/findMagazine", routes.FindMagazines(db, authDB)).Methods("POST")
 
 	log.Fatal(http.ListenAndServe(":8080", r))
 }
