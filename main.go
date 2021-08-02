@@ -27,6 +27,7 @@ func main() {
 	fmt.Println(db)
 	r := mux.NewRouter()
 
+	// MAGAZINES ROUTES
 	r.HandleFunc("/getMagazines", routes.GetAllMagazines(db, authDB)).Methods("GET")
 	r.HandleFunc("/createMagazine", routes.CreateMagazine(db, authDB)).Methods("POST")
 	r.HandleFunc("/reserveMagazine", routes.ReserveMagazine(db, authDB)).Methods("PUT")
@@ -34,6 +35,9 @@ func main() {
 	r.HandleFunc("/removeMagazine/{compID}", routes.DeleteMagazine(db, authDB)).Methods("DELETE")
 	r.HandleFunc("/getMagazine/{compID}", routes.GetMagazine(db, authDB)).Methods("GET")
 	r.HandleFunc("/findMagazine", routes.FindMagazines(db, authDB)).Methods("POST")
+	r.HandleFunc("/getMagazineReservedBy/{name}", routes.GetMagazineReservedBy(db, authDB)).Methods("GET")
+
+	// CLIENTS ROUTES
 
 	log.Fatal(http.ListenAndServe(":8080", r))
 }

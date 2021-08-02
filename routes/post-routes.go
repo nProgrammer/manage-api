@@ -35,3 +35,9 @@ func FindMagazines(db *sql.DB, authDB []models.Authorize) http.HandlerFunc {
 		}
 	}
 }
+
+func CreateClient(db *sql.DB, authDB []models.Authorize) http.HandlerFunc {
+	return func(rw http.ResponseWriter, r *http.Request) {
+
+	}
+}
