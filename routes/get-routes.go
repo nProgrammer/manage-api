@@ -57,3 +57,14 @@ func GetMagazineReservedBy(db *sql.DB, authDB []models.Authorize) http.HandlerFu
 		}
 	}
 }
+
+func GetAllClients(db *sql.DB, authDB []models.Authorize) http.HandlerFunc {
+	return func(rw http.ResponseWriter, r *http.Request) {
+		mainauS := utils.AuthorizeMethod(r, authDB)
+		if mainauS == authDB[0].MainAuth {
+			controllers.GetClientsCT(db, rw)
+		} else {
+			utils.JsonResponse("Bad token!", false, rw)
+		}
+	}
+}

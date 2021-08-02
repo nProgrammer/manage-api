@@ -28,6 +28,15 @@ func GetMagazinesDB(db *sql.DB, magazine models.Magazine, magazines []models.Mag
 	return magazines
 }
 
+func GetClientsDB(db *sql.DB, client models.Client, clients []models.Client) []models.Client {
+	rows, _ := db.Query("select * from clients;")
+	for rows.Next() {
+		_ = rows.Scan(&client.ID, &client.Name, &client.Login, &client.Phone, &client.Email)
+		clients = append(clients, client)
+	}
+	return clients
+}
+
 func GetMagazineDB(db *sql.DB, magazine models.Magazine, magazines []models.Magazine, id string) []models.Magazine {
 	rows, _ := db.Query("select * from magazines where compID=$1;", id)
 	for rows.Next() {

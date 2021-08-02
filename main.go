@@ -39,6 +39,7 @@ func main() {
 
 	// CLIENTS ROUTES
 	r.HandleFunc("/createClient", routes.CreateClient(db, authDB)).Methods("POST")
+	r.HandleFunc("/getClients", routes.GetAllClients(db, authDB)).Methods("GET")
 
 	log.Fatal(http.ListenAndServe(":8080", r))
 }
