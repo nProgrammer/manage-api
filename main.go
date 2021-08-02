@@ -38,6 +38,7 @@ func main() {
 	r.HandleFunc("/getMagazineReservedBy/{name}", routes.GetMagazineReservedBy(db, authDB)).Methods("GET")
 
 	// CLIENTS ROUTES
+	r.HandleFunc("/createClient", routes.CreateClient(db, authDB)).Methods("POST")
 
 	log.Fatal(http.ListenAndServe(":8080", r))
 }

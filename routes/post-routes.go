@@ -6,6 +6,8 @@ import (
 	"api/utils"
 	"database/sql"
 	"encoding/json"
+	"fmt"
+	"log"
 	"net/http"
 	"strconv"
 )
@@ -38,6 +40,16 @@ func FindMagazines(db *sql.DB, authDB []models.Authorize) http.HandlerFunc {
 
 func CreateClient(db *sql.DB, authDB []models.Authorize) http.HandlerFunc {
 	return func(rw http.ResponseWriter, r *http.Request) {
-
+		mainauS := utils.AuthorizeMethod(r, authDB)
+		var newClient models.Client
+		json.NewDecoder(r.Body).Decode(&newClient)
+		fmt.Println(newClient)
+		if mainauS == authDB[0].MainAuth {
+			log.Println("WORKS")
+			id := controllers.CreateClientCT(db, newClient, rw)
+			utils.JsonResponse(strconv.Itoa(id), true, rw)
+		} else {
+			utils.JsonResponse("Bad Token!", false, rw)
+		}
 	}
 }

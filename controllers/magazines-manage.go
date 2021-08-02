@@ -16,6 +16,11 @@ func CreateMagazine(r *http.Request, db *sql.DB) int {
 	return id
 }
 
+func CreateClientCT(db *sql.DB, client models.Client, rw http.ResponseWriter) int {
+	id := repositories.CreateClientDB(db, client)
+	return id
+}
+
 func GetMagazine(db *sql.DB, rw http.ResponseWriter) {
 	var magazines []models.Magazine
 	var magazine models.Magazine

@@ -3,12 +3,20 @@ package repositories
 import (
 	"api/models"
 	"database/sql"
+	"log"
 )
 
 func CreateMagazineDB(db *sql.DB, newMag models.Magazine) int {
 	_ = db.QueryRow("insert into magazines(holder, isReserved, price, dateTillReserves, compID) values ($1 ,$2, $3, $4, $5)",
 		newMag.Holder, newMag.IsReserved, newMag.Price, newMag.DateTillReserved, newMag.CompanyID).Scan(&newMag.ID)
 	return newMag.ID
+}
+
+func CreateClientDB(db *sql.DB, client models.Client) int {
+	log.Println(client)
+	_ = db.QueryRow("insert into clients(name, login, phone, email) values ($1, $2, $3, $4)",
+		client.Name, client.Login, client.Phone, client.Email).Scan(&client.ID)
+	return client.ID
 }
 
 func GetMagazinesDB(db *sql.DB, magazine models.Magazine, magazines []models.Magazine) []models.Magazine {
