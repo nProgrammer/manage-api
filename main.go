@@ -41,5 +41,8 @@ func main() {
 	r.HandleFunc("/createClient", routes.CreateClient(db, authDB)).Methods("POST")
 	r.HandleFunc("/getClients", routes.GetAllClients(db, authDB)).Methods("GET")
 
+	// CONTACT FUNCTIONS
+	r.HandleFunc("/sendEmail/{holder}", routes.GetSendEmailToClient(db, authDB))
+
 	log.Fatal(http.ListenAndServe(":8080", r))
 }
