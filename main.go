@@ -1,4 +1,7 @@
-//TODO function for updating and deleting magazine
+// TODO - create email template
+// TODO - create function that is deleting clients, finding clients by Client.Login
+// TODO - after creating function that is finding clients, refactore code of email-tool/email.go
+// TODO - update endpoints's names
 package main
 
 import (
