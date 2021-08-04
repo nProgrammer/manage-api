@@ -1,6 +1,5 @@
 // TODO - create email template
 // TODO - after creating function that is finding clients, refactore code of email-tool/email.go
-// TODO - update endpoints's names
 // TODO - update documentation on postman
 package main
 
