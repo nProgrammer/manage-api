@@ -42,6 +42,11 @@ func ReserveMagazineCT(db *sql.DB, magazine models.Magazine) int64 {
 	return rowsUpd
 }
 
+func UpdateMagazinePriceCT(db *sql.DB, magazine models.Magazine) int64 {
+	rowsUpd := repositories.UpdateMagazinePriceDB(db, magazine)
+	return rowsUpd
+}
+
 func GetReservedMagazines(db *sql.DB, rw http.ResponseWriter) {
 	var magazines []models.Magazine
 	var magazine models.Magazine

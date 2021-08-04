@@ -82,6 +82,15 @@ func UpdateClientDB(db *sql.DB, client models.Client) int64 {
 	return rowsUpd
 }
 
+func UpdateMagazinePriceDB(db *sql.DB, magazine models.Magazine) int64 {
+	result, _ := db.Exec("update magazines set price=$1 where compID=$2",
+		&magazine.Price, &magazine.CompanyID)
+
+	rowsUpd, _ := result.RowsAffected()
+
+	return rowsUpd
+}
+
 func DeleteMagazineDB(db *sql.DB, compID string) {
 	result, _ := db.Exec("delete from magazines where compID=$1", compID)
 

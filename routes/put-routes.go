@@ -61,3 +61,21 @@ func UpdateClient(db *sql.DB, authDB []models.Authorize) http.HandlerFunc {
 		}
 	}
 }
+
+func UpdateMagazinePrice(db *sql.DB, authDB []models.Authorize) http.HandlerFunc {
+	return func(rw http.ResponseWriter, r *http.Request) {
+		mainauS := utils.AuthorizeMethod(r, authDB)
+
+		if mainauS == authDB[0].MainAuth {
+
+			var magazine models.Magazine
+
+			json.NewDecoder(r.Body).Decode(&magazine)
+			a := controllers.UpdateMagazinePriceCT(db, magazine)
+			res := strconv.FormatInt(a, 10)
+			utils.JsonResponse(res, true, rw)
+		} else {
+			utils.JsonResponse("Missing data!", false, rw)
+		}
+	}
+}
