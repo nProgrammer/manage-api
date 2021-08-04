@@ -1,5 +1,5 @@
 // TODO - create email template
-// TODO - create function that is deleting clients
+// TODO - create function that is updating clients
 // TODO - after creating function that is finding clients, refactore code of email-tool/email.go
 // TODO - update endpoints's names
 package main
@@ -44,6 +44,7 @@ func main() {
 	r.HandleFunc("/createClient", routes.CreateClient(db, authDB)).Methods("POST")
 	r.HandleFunc("/getClients", routes.GetAllClients(db, authDB)).Methods("GET")
 	r.HandleFunc("/findClient/{holder}", routes.GetClient(db, authDB)).Methods("GET")
+	r.HandleFunc("/removeClient/{holder}", routes.DeleteClient(db, authDB)).Methods("DELETE")
 
 	// CONTACT FUNCTIONS
 	r.HandleFunc("/sendEmail/{holder}", routes.GetSendEmailToClient(db, authDB)).Methods("GET")

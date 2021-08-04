@@ -98,3 +98,9 @@ func FindClientDB(login string, db *sql.DB, clients []models.Client) []models.Cl
 	}
 	return clients
 }
+
+func DeleteClientDB(db *sql.DB, login string) {
+	result, _ := db.Exec("delete from clients where login=$1", login)
+
+	result.RowsAffected()
+}

@@ -3,6 +3,7 @@ package controllers
 import (
 	"api/models"
 	"api/repositories"
+	"api/utils"
 	"database/sql"
 	"encoding/json"
 	"net/http"
@@ -24,4 +25,10 @@ func FindClientCT(db *sql.DB, rw http.ResponseWriter, login string) {
 	var clients []models.Client
 	clients = repositories.FindClientDB(login, db, clients)
 	json.NewEncoder(rw).Encode(clients)
+}
+
+func DeleteClientCT(db *sql.DB, rw http.ResponseWriter, holder string) {
+	text := "Deleted " + holder
+	repositories.DeleteClientDB(db, holder)
+	utils.JsonResponse(text, true, rw)
 }
