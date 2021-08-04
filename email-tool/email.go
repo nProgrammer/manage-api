@@ -7,7 +7,7 @@ import (
 	"fmt"
 )
 
-func SendEmail(db *sql.DB, holder string) { // FIXME - clean up
+func SendEmail(db *sql.DB, holder string) {
 	var mag models.Warehouse
 	var mags []models.Warehouse
 	mags = repositories.GetWarehouseReservedByDB(db, mag, mags, holder)
