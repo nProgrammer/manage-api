@@ -82,3 +82,16 @@ func GetSendEmailToClient(db *sql.DB, authDB []models.Authorize) http.HandlerFun
 		}
 	}
 }
+
+func GetClient(db *sql.DB, authDB []models.Authorize) http.HandlerFunc {
+	return func(rw http.ResponseWriter, r *http.Request) {
+		mainauS := utils.AuthorizeMethod(r, authDB)
+		params := mux.Vars(r)
+		holder := params["holder"]
+		if mainauS == authDB[0].MainAuth {
+			controllers.FindClientCT(db, rw, holder)
+		} else {
+			utils.JsonResponse("Bad token!", false, rw)
+		}
+	}
+}

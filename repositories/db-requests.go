@@ -88,3 +88,13 @@ func FindMagazinesDB(db *sql.DB, magazineToFind models.Magazine, magazines []mod
 	}
 	return magazines
 }
+
+func FindClientDB(login string, db *sql.DB, clients []models.Client) []models.Client {
+	var client models.Client
+	rows, _ := db.Query("select * from clients where login=$1;", login)
+	for rows.Next() {
+		_ = rows.Scan(&client.ID, &client.Name, &client.Login, &client.Phone, &client.Email)
+		clients = append(clients, client)
+	}
+	return clients
+}

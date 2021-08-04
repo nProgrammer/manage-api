@@ -19,3 +19,9 @@ func GetClientsCT(db *sql.DB, rw http.ResponseWriter) {
 	clients = repositories.GetClientsDB(db, client, clients)
 	json.NewEncoder(rw).Encode(clients)
 }
+
+func FindClientCT(db *sql.DB, rw http.ResponseWriter, login string) {
+	var clients []models.Client
+	clients = repositories.FindClientDB(login, db, clients)
+	json.NewEncoder(rw).Encode(clients)
+}

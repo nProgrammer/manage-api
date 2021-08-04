@@ -10,7 +10,7 @@ import (
 	"strconv"
 )
 
-func SendEmail(db *sql.DB, holder string) {
+func SendEmail(db *sql.DB, holder string) { // FIXME - clean up
 	var mag models.Magazine
 	var mags []models.Magazine
 	mags = repositories.GetMagazineReservedByDB(db, mag, mags, holder)
