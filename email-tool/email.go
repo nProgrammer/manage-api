@@ -11,10 +11,10 @@ import (
 )
 
 func SendEmail(db *sql.DB, holder string) { // FIXME - clean up
-	var mag models.Magazine
-	var mags []models.Magazine
-	mags = repositories.GetMagazineReservedByDB(db, mag, mags, holder)
-	// mags - list of magazines reserved by $holder
+	var mag models.Warehouse
+	var mags []models.Warehouse
+	mags = repositories.GetWarehouseReservedByDB(db, mag, mags, holder)
+	// mags - list of warehouses reserved by $holder
 	var client models.Client
 	var clients []models.Client
 	rows, _ := db.Query("select * from clients where login=$1;", holder)
@@ -25,9 +25,9 @@ func SendEmail(db *sql.DB, holder string) { // FIXME - clean up
 	email := clients[0].Email
 	i := 0
 	var message string
-	message += "You reserved " + strconv.Itoa(len(mags)) + " magazine(s)"
+	message += "You reserved " + strconv.Itoa(len(mags)) + " warehouse(s)"
 	for i < len(mags) {
-		message += "\n" + mags[i].DateTillReserved + " id of magazine " + mags[i].CompanyID
+		message += "\n" + mags[i].DateTillReserved + " id of warehouse " + mags[i].CompanyID
 		i++
 	}
 	fmt.Printf(email + message)

@@ -12,11 +12,11 @@ import (
 	"strconv"
 )
 
-func CreateMagazine(db *sql.DB, authDB []models.Authorize) http.HandlerFunc {
+func CreateWarehouse(db *sql.DB, authDB []models.Authorize) http.HandlerFunc {
 	return func(rw http.ResponseWriter, r *http.Request) {
 		mainauS := utils.AuthorizeMethod(r, authDB)
 		if mainauS == authDB[0].MainAuth {
-			id := controllers.CreateMagazine(r, db)
+			id := controllers.CreateWarehouse(r, db)
 			idS := strconv.Itoa(id)
 			utils.JsonResponse(idS, true, rw)
 		} else {
@@ -25,13 +25,13 @@ func CreateMagazine(db *sql.DB, authDB []models.Authorize) http.HandlerFunc {
 	}
 }
 
-func FindMagazines(db *sql.DB, authDB []models.Authorize) http.HandlerFunc {
+func FindWarehouses(db *sql.DB, authDB []models.Authorize) http.HandlerFunc {
 	return func(rw http.ResponseWriter, r *http.Request) {
 		mainauS := utils.AuthorizeMethod(r, authDB)
-		var magazineToFind models.Magazine
-		json.NewDecoder(r.Body).Decode(&magazineToFind)
+		var warehouseToFind models.Warehouse
+		json.NewDecoder(r.Body).Decode(&warehouseToFind)
 		if mainauS == authDB[0].MainAuth {
-			controllers.FindMagazineCT(db, magazineToFind, rw)
+			controllers.FindWarehouseCT(db, warehouseToFind, rw)
 		} else {
 			utils.JsonResponse("Bad Token!", false, rw)
 		}

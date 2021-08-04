@@ -1,6 +1,6 @@
 package models
 
-type Magazine struct {
+type Warehouse struct {
 	ID               int    `json:"id"`
 	Holder           string `json:"holder"`
 	IsReserved       bool   `json:"isReserved"`

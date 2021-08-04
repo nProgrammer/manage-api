@@ -10,23 +10,23 @@ import (
 	"strconv"
 )
 
-func ReserveMagazine(db *sql.DB, authDB []models.Authorize) http.HandlerFunc {
+func ReserveWarehouse(db *sql.DB, authDB []models.Authorize) http.HandlerFunc {
 	return func(rw http.ResponseWriter, r *http.Request) {
 		mainauS := utils.AuthorizeMethod(r, authDB)
 
 		if mainauS == authDB[0].MainAuth {
 
-			var magazine models.Magazine
+			var warehouse models.Warehouse
 
-			json.NewDecoder(r.Body).Decode(&magazine)
+			json.NewDecoder(r.Body).Decode(&warehouse)
 
-			if magazine.Holder != "" && magazine.Holder != " " {
-				magazine.IsReserved = true
+			if warehouse.Holder != "" && warehouse.Holder != " " {
+				warehouse.IsReserved = true
 			} else {
-				utils.JsonResponse("Magazine holder name is empty", false, rw)
+				utils.JsonResponse("Warehouse holder name is empty", false, rw)
 			}
-			if magazine.CompanyID != "" && magazine.IsReserved == true && magazine.DateTillReserved != "" {
-				a := controllers.ReserveMagazineCT(db, magazine)
+			if warehouse.CompanyID != "" && warehouse.IsReserved == true && warehouse.DateTillReserved != "" {
+				a := controllers.ReserveWarehouseCT(db, warehouse)
 				res := strconv.FormatInt(a, 10)
 				utils.JsonResponse(res, true, rw)
 			} else {
@@ -62,16 +62,16 @@ func UpdateClient(db *sql.DB, authDB []models.Authorize) http.HandlerFunc {
 	}
 }
 
-func UpdateMagazinePrice(db *sql.DB, authDB []models.Authorize) http.HandlerFunc {
+func UpdateWarehousePrice(db *sql.DB, authDB []models.Authorize) http.HandlerFunc {
 	return func(rw http.ResponseWriter, r *http.Request) {
 		mainauS := utils.AuthorizeMethod(r, authDB)
 
 		if mainauS == authDB[0].MainAuth {
 
-			var magazine models.Magazine
+			var warehouse models.Warehouse
 
-			json.NewDecoder(r.Body).Decode(&magazine)
-			a := controllers.UpdateMagazinePriceCT(db, magazine)
+			json.NewDecoder(r.Body).Decode(&warehouse)
+			a := controllers.UpdateWarehousePriceCT(db, warehouse)
 			res := strconv.FormatInt(a, 10)
 			utils.JsonResponse(res, true, rw)
 		} else {

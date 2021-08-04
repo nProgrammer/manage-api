@@ -18,7 +18,7 @@ import (
 	"github.com/joho/godotenv"
 )
 
-var Magazines []models.Magazine
+var Warehouses []models.Warehouse
 
 var db *sql.DB
 
@@ -30,20 +30,20 @@ func main() {
 	fmt.Println(db)
 	r := mux.NewRouter()
 
-	// MAGAZINES ROUTES
-	r.HandleFunc("/getMagazines", routes.GetAllMagazines(db, authDB)).Methods("GET")
-	r.HandleFunc("/createMagazine", routes.CreateMagazine(db, authDB)).Methods("POST")
-	r.HandleFunc("/reserveMagazine", routes.ReserveMagazine(db, authDB)).Methods("PUT")
-	r.HandleFunc("/getReservedMagazine", routes.GetReservedMagazines(db, authDB)).Methods("GET")
-	r.HandleFunc("/removeMagazine/{compID}", routes.DeleteMagazine(db, authDB)).Methods("DELETE")
-	r.HandleFunc("/getMagazine/{compID}", routes.GetMagazine(db, authDB)).Methods("GET")
-	r.HandleFunc("/findMagazine", routes.FindMagazines(db, authDB)).Methods("POST")
-	r.HandleFunc("/getMagazineReservedBy/{name}", routes.GetMagazineReservedBy(db, authDB)).Methods("GET")
-	r.HandleFunc("/updateMagazinePrice", routes.UpdateMagazinePrice(db, authDB)).Methods("PUT")
+	// WAREHOUSES ROUTES
+	r.HandleFunc("/getAllWarehouses", routes.GetAllWarehouses(db, authDB)).Methods("GET")
+	r.HandleFunc("/createWarehouse", routes.CreateWarehouse(db, authDB)).Methods("POST")
+	r.HandleFunc("/reserveWarehouse", routes.ReserveWarehouse(db, authDB)).Methods("PUT")
+	r.HandleFunc("/getReservedWarehouses", routes.GetReservedWarehouses(db, authDB)).Methods("GET")
+	r.HandleFunc("/removeWarehouse/{compID}", routes.DeleteWarehouse(db, authDB)).Methods("DELETE")
+	r.HandleFunc("/getWarehouse/{compID}", routes.GetWarehouse(db, authDB)).Methods("GET")
+	r.HandleFunc("/findWarehouse", routes.FindWarehouses(db, authDB)).Methods("POST")
+	r.HandleFunc("/getWarehousesReservedBy/{name}", routes.GetWarehouseReservedBy(db, authDB)).Methods("GET")
+	r.HandleFunc("/updateWarehousePrice", routes.UpdateWarehousePrice(db, authDB)).Methods("PUT")
 
 	// CLIENTS ROUTES
 	r.HandleFunc("/createClient", routes.CreateClient(db, authDB)).Methods("POST")
-	r.HandleFunc("/getClients", routes.GetAllClients(db, authDB)).Methods("GET")
+	r.HandleFunc("/getAllClients", routes.GetAllClients(db, authDB)).Methods("GET")
 	r.HandleFunc("/findClient/{holder}", routes.GetClient(db, authDB)).Methods("GET")
 	r.HandleFunc("/removeClient/{holder}", routes.DeleteClient(db, authDB)).Methods("DELETE")
 	r.HandleFunc("/updateClient", routes.UpdateClient(db, authDB)).Methods("PUT")

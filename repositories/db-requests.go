@@ -6,8 +6,8 @@ import (
 	"log"
 )
 
-func CreateMagazineDB(db *sql.DB, newMag models.Magazine) int {
-	_ = db.QueryRow("insert into magazines(holder, isReserved, price, dateTillReserves, compID) values ($1 ,$2, $3, $4, $5)",
+func CreateWarehouseDB(db *sql.DB, newMag models.Warehouse) int {
+	_ = db.QueryRow("insert into warehouses(holder, isReserved, price, dateTillReserves, compID) values ($1 ,$2, $3, $4, $5)",
 		newMag.Holder, newMag.IsReserved, newMag.Price, newMag.DateTillReserved, newMag.CompanyID).Scan(&newMag.ID)
 	return newMag.ID
 }
@@ -19,13 +19,13 @@ func CreateClientDB(db *sql.DB, client models.Client) int {
 	return client.ID
 }
 
-func GetMagazinesDB(db *sql.DB, magazine models.Magazine, magazines []models.Magazine) []models.Magazine {
-	rows, _ := db.Query("select * from magazines;")
+func GetWarehousesDB(db *sql.DB, warehouse models.Warehouse, warehouses []models.Warehouse) []models.Warehouse {
+	rows, _ := db.Query("select * from warehouses;")
 	for rows.Next() {
-		_ = rows.Scan(&magazine.ID, &magazine.Holder, &magazine.IsReserved, &magazine.Price, &magazine.DateTillReserved, &magazine.CompanyID)
-		magazines = append(magazines, magazine)
+		_ = rows.Scan(&warehouse.ID, &warehouse.Holder, &warehouse.IsReserved, &warehouse.Price, &warehouse.DateTillReserved, &warehouse.CompanyID)
+		warehouses = append(warehouses, warehouse)
 	}
-	return magazines
+	return warehouses
 }
 
 func GetClientsDB(db *sql.DB, client models.Client, clients []models.Client) []models.Client {
@@ -37,36 +37,36 @@ func GetClientsDB(db *sql.DB, client models.Client, clients []models.Client) []m
 	return clients
 }
 
-func GetMagazineDB(db *sql.DB, magazine models.Magazine, magazines []models.Magazine, id string) []models.Magazine {
-	rows, _ := db.Query("select * from magazines where compID=$1;", id)
+func GetWarehouseDB(db *sql.DB, warehouse models.Warehouse, warehouses []models.Warehouse, id string) []models.Warehouse {
+	rows, _ := db.Query("select * from warehouses where compID=$1;", id)
 	for rows.Next() {
-		_ = rows.Scan(&magazine.ID, &magazine.Holder, &magazine.IsReserved, &magazine.Price, &magazine.DateTillReserved, &magazine.CompanyID)
-		magazines = append(magazines, magazine)
+		_ = rows.Scan(&warehouse.ID, &warehouse.Holder, &warehouse.IsReserved, &warehouse.Price, &warehouse.DateTillReserved, &warehouse.CompanyID)
+		warehouses = append(warehouses, warehouse)
 	}
-	return magazines
+	return warehouses
 }
 
-func GetMagazineReservedByDB(db *sql.DB, magazine models.Magazine, magazines []models.Magazine, name string) []models.Magazine {
-	rows, _ := db.Query("select * from magazines where holder=$1;", name)
+func GetWarehouseReservedByDB(db *sql.DB, warehouse models.Warehouse, warehouses []models.Warehouse, name string) []models.Warehouse {
+	rows, _ := db.Query("select * from warehouses where holder=$1;", name)
 	for rows.Next() {
-		_ = rows.Scan(&magazine.ID, &magazine.Holder, &magazine.IsReserved, &magazine.Price, &magazine.DateTillReserved, &magazine.CompanyID)
-		magazines = append(magazines, magazine)
+		_ = rows.Scan(&warehouse.ID, &warehouse.Holder, &warehouse.IsReserved, &warehouse.Price, &warehouse.DateTillReserved, &warehouse.CompanyID)
+		warehouses = append(warehouses, warehouse)
 	}
-	return magazines
+	return warehouses
 }
 
-func GetReservedMagazinesDB(db *sql.DB, magazine models.Magazine, magazines []models.Magazine) []models.Magazine {
-	rows, _ := db.Query("select * from magazines where holder != '';")
+func GetReservedWarehousesDB(db *sql.DB, warehouse models.Warehouse, warehouses []models.Warehouse) []models.Warehouse {
+	rows, _ := db.Query("select * from warehouses where holder != '';")
 	for rows.Next() {
-		_ = rows.Scan(&magazine.ID, &magazine.Holder, &magazine.IsReserved, &magazine.Price, &magazine.DateTillReserved, &magazine.CompanyID)
-		magazines = append(magazines, magazine)
+		_ = rows.Scan(&warehouse.ID, &warehouse.Holder, &warehouse.IsReserved, &warehouse.Price, &warehouse.DateTillReserved, &warehouse.CompanyID)
+		warehouses = append(warehouses, warehouse)
 	}
-	return magazines
+	return warehouses
 }
 
-func ReserveMagazineDB(db *sql.DB, magazine models.Magazine) int64 {
-	result, _ := db.Exec("update magazines set holder=$1, isReserved=$2, dateTillReserves=$3 where compID=$4",
-		&magazine.Holder, &magazine.IsReserved, &magazine.DateTillReserved, &magazine.CompanyID)
+func ReserveWarehouseDB(db *sql.DB, warehouse models.Warehouse) int64 {
+	result, _ := db.Exec("update warehouses set holder=$1, isReserved=$2, dateTillReserves=$3 where compID=$4",
+		&warehouse.Holder, &warehouse.IsReserved, &warehouse.DateTillReserved, &warehouse.CompanyID)
 
 	rowsUpd, _ := result.RowsAffected()
 
@@ -82,29 +82,29 @@ func UpdateClientDB(db *sql.DB, client models.Client) int64 {
 	return rowsUpd
 }
 
-func UpdateMagazinePriceDB(db *sql.DB, magazine models.Magazine) int64 {
-	result, _ := db.Exec("update magazines set price=$1 where compID=$2",
-		&magazine.Price, &magazine.CompanyID)
+func UpdateWarehousePriceDB(db *sql.DB, warehouse models.Warehouse) int64 {
+	result, _ := db.Exec("update warehouses set price=$1 where compID=$2",
+		&warehouse.Price, &warehouse.CompanyID)
 
 	rowsUpd, _ := result.RowsAffected()
 
 	return rowsUpd
 }
 
-func DeleteMagazineDB(db *sql.DB, compID string) {
-	result, _ := db.Exec("delete from magazines where compID=$1", compID)
+func DeleteWarehouseDB(db *sql.DB, compID string) {
+	result, _ := db.Exec("delete from warehouses where compID=$1", compID)
 
 	result.RowsAffected()
 }
 
-func FindMagazinesDB(db *sql.DB, magazineToFind models.Magazine, magazines []models.Magazine) []models.Magazine {
-	var magazine models.Magazine
-	rows, _ := db.Query("select * from magazines where price=$1;", magazineToFind.Price)
+func FindWarehousesDB(db *sql.DB, warehouseToFind models.Warehouse, warehouses []models.Warehouse) []models.Warehouse {
+	var warehouse models.Warehouse
+	rows, _ := db.Query("select * from warehouses where price=$1;", warehouseToFind.Price)
 	for rows.Next() {
-		_ = rows.Scan(&magazine.ID, &magazine.Holder, &magazine.IsReserved, &magazine.Price, &magazine.DateTillReserved, &magazine.CompanyID)
-		magazines = append(magazines, magazine)
+		_ = rows.Scan(&warehouse.ID, &warehouse.Holder, &warehouse.IsReserved, &warehouse.Price, &warehouse.DateTillReserved, &warehouse.CompanyID)
+		warehouses = append(warehouses, warehouse)
 	}
-	return magazines
+	return warehouses
 }
 
 func FindClientDB(login string, db *sql.DB, clients []models.Client) []models.Client {

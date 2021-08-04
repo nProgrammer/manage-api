@@ -11,48 +11,48 @@ import (
 	"github.com/gorilla/mux"
 )
 
-func GetAllMagazines(db *sql.DB, authDB []models.Authorize) http.HandlerFunc {
+func GetAllWarehouses(db *sql.DB, authDB []models.Authorize) http.HandlerFunc {
 	return func(rw http.ResponseWriter, r *http.Request) {
 		mainauS := utils.AuthorizeMethod(r, authDB)
 		if mainauS == authDB[0].MainAuth {
-			controllers.GetMagazine(db, rw)
+			controllers.GetWarehouse(db, rw)
 		} else {
 			utils.JsonResponse("Bad token!", false, rw)
 		}
 	}
 }
 
-func GetMagazine(db *sql.DB, authDB []models.Authorize) http.HandlerFunc {
+func GetWarehouse(db *sql.DB, authDB []models.Authorize) http.HandlerFunc {
 	return func(rw http.ResponseWriter, r *http.Request) {
 		mainauS := utils.AuthorizeMethod(r, authDB)
 		if mainauS == authDB[0].MainAuth {
 			params := mux.Vars(r)
 			id := params["compID"]
-			controllers.GetMagazineCT(db, rw, id)
+			controllers.GetWarehouseCT(db, rw, id)
 		} else {
 			utils.JsonResponse("Bad token!", false, rw)
 		}
 	}
 }
 
-func GetReservedMagazines(db *sql.DB, authDB []models.Authorize) http.HandlerFunc {
+func GetReservedWarehouses(db *sql.DB, authDB []models.Authorize) http.HandlerFunc {
 	return func(rw http.ResponseWriter, r *http.Request) {
 		mainauS := utils.AuthorizeMethod(r, authDB)
 		if mainauS == authDB[0].MainAuth {
-			controllers.GetReservedMagazines(db, rw)
+			controllers.GetReservedWarehouses(db, rw)
 		} else {
 			utils.JsonResponse("Bad token!", false, rw)
 		}
 	}
 }
 
-func GetMagazineReservedBy(db *sql.DB, authDB []models.Authorize) http.HandlerFunc {
+func GetWarehouseReservedBy(db *sql.DB, authDB []models.Authorize) http.HandlerFunc {
 	return func(rw http.ResponseWriter, r *http.Request) {
 		mainauS := utils.AuthorizeMethod(r, authDB)
 		if mainauS == authDB[0].MainAuth {
 			params := mux.Vars(r)
 			name := params["name"]
-			controllers.GetMagazineReservedByCT(db, rw, name)
+			controllers.GetWarehouseReservedByCT(db, rw, name)
 		} else {
 			utils.JsonResponse("Bad token!", false, rw)
 		}
