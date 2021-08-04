@@ -14,6 +14,11 @@ func CreateClientCT(db *sql.DB, client models.Client, rw http.ResponseWriter) in
 	return id
 }
 
+func UpdateClientCT(db *sql.DB, client models.Client) int64 {
+	rowsUpd := repositories.UpdateClientDB(db, client)
+	return rowsUpd
+}
+
 func GetClientsCT(db *sql.DB, rw http.ResponseWriter) {
 	var clients []models.Client
 	var client models.Client

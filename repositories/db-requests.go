@@ -73,6 +73,15 @@ func ReserveMagazineDB(db *sql.DB, magazine models.Magazine) int64 {
 	return rowsUpd
 }
 
+func UpdateClientDB(db *sql.DB, client models.Client) int64 {
+	result, _ := db.Exec("update clients set name=$1, login=$2, phone=$3, email=$4 where login=$5",
+		&client.Name, &client.Login, &client.Phone, &client.Email, &client.Login)
+
+	rowsUpd, _ := result.RowsAffected()
+
+	return rowsUpd
+}
+
 func DeleteMagazineDB(db *sql.DB, compID string) {
 	result, _ := db.Exec("delete from magazines where compID=$1", compID)
 

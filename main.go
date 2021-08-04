@@ -1,5 +1,5 @@
 // TODO - create email template
-// TODO - create function that is updating clients
+// TODO - create function that is updating magazine
 // TODO - after creating function that is finding clients, refactore code of email-tool/email.go
 // TODO - update endpoints's names
 // TODO - update documentation on postman
@@ -46,6 +46,7 @@ func main() {
 	r.HandleFunc("/getClients", routes.GetAllClients(db, authDB)).Methods("GET")
 	r.HandleFunc("/findClient/{holder}", routes.GetClient(db, authDB)).Methods("GET")
 	r.HandleFunc("/removeClient/{holder}", routes.DeleteClient(db, authDB)).Methods("DELETE")
+	r.HandleFunc("/updateClient", routes.UpdateClient(db, authDB)).Methods("PUT")
 
 	// CONTACT FUNCTIONS
 	r.HandleFunc("/sendEmail/{holder}", routes.GetSendEmailToClient(db, authDB)).Methods("GET")

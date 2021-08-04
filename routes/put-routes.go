@@ -37,3 +37,27 @@ func ReserveMagazine(db *sql.DB, authDB []models.Authorize) http.HandlerFunc {
 		}
 	}
 }
+
+func UpdateClient(db *sql.DB, authDB []models.Authorize) http.HandlerFunc {
+	return func(rw http.ResponseWriter, r *http.Request) {
+		mainauS := utils.AuthorizeMethod(r, authDB)
+
+		if mainauS == authDB[0].MainAuth {
+
+			var client models.Client
+
+			json.NewDecoder(r.Body).Decode(&client)
+
+			if client.Login != "" && client.Login != " " {
+
+			} else {
+				utils.JsonResponse("Client holder name is empty", false, rw)
+			}
+			a := controllers.UpdateClientCT(db, client)
+			res := strconv.FormatInt(a, 10)
+			utils.JsonResponse(res, true, rw)
+		} else {
+			utils.JsonResponse("Missing data!", false, rw)
+		}
+	}
+}
