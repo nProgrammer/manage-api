@@ -1,5 +1,8 @@
 // TODO - create email template
 // TODO - create Docker package
+
+// TODO - change json responses
+// * Updated json response for creating warehouse and sending email *
 package main
 
 import (

@@ -16,9 +16,7 @@ func CreateWarehouse(db *sql.DB, authDB []models.Authorize) http.HandlerFunc {
 	return func(rw http.ResponseWriter, r *http.Request) {
 		mainauS := utils.AuthorizeMethod(r, authDB)
 		if mainauS == authDB[0].MainAuth {
-			id := controllers.CreateWarehouse(r, db)
-			idS := strconv.Itoa(id)
-			utils.JsonResponse(idS, true, rw)
+			controllers.CreateWarehouse(r, db, rw)
 		} else {
 			utils.JsonResponse("Bad Token!", false, rw)
 		}

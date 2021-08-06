@@ -6,6 +6,7 @@ import (
 	"api/models"
 	"api/utils"
 	"database/sql"
+	"encoding/json"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -77,6 +78,7 @@ func GetSendEmailToClient(db *sql.DB, authDB []models.Authorize) http.HandlerFun
 		holder := params["holder"]
 		if mainauS == authDB[0].MainAuth {
 			emailtool.SendEmail(db, holder)
+			json.NewEncoder(rw).Encode("Message sent")
 		} else {
 			utils.JsonResponse("Bad token!", false, rw)
 		}

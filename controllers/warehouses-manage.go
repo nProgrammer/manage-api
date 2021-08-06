@@ -9,11 +9,11 @@ import (
 	"net/http"
 )
 
-func CreateWarehouse(r *http.Request, db *sql.DB) int {
+func CreateWarehouse(r *http.Request, db *sql.DB, rw http.ResponseWriter) {
 	var newMag models.Warehouse
 	json.NewDecoder(r.Body).Decode(&newMag)
-	id := repositories.CreateWarehouseDB(db, newMag)
-	return id
+	_ = repositories.CreateWarehouseDB(db, newMag)
+	json.NewEncoder(rw).Encode(newMag)
 }
 
 func GetWarehouse(db *sql.DB, rw http.ResponseWriter) {
