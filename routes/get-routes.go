@@ -91,7 +91,23 @@ func GetClient(db *sql.DB, authDB []models.Authorize) http.HandlerFunc {
 		params := mux.Vars(r)
 		holder := params["holder"]
 		if mainauS == authDB[0].MainAuth {
-			controllers.FindClientCT(db, rw, holder)
+			client := controllers.FindClientCT(db, holder)
+			json.NewEncoder(rw).Encode(client)
+
+		} else {
+			utils.JsonResponse("Bad token!", false, rw)
+		}
+	}
+}
+
+func GetPhoneNumber(db *sql.DB, authDB []models.Authorize) http.HandlerFunc {
+	return func(rw http.ResponseWriter, r *http.Request) {
+		mainauS := utils.AuthorizeMethod(r, authDB)
+		params := mux.Vars(r)
+		holder := params["holder"]
+		if mainauS == authDB[0].MainAuth {
+			client := controllers.FindClientCT(db, holder)
+			json.NewEncoder(rw).Encode(client.Phone)
 		} else {
 			utils.JsonResponse("Bad token!", false, rw)
 		}

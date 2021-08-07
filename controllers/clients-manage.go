@@ -26,10 +26,10 @@ func GetClientsCT(db *sql.DB, rw http.ResponseWriter) {
 	json.NewEncoder(rw).Encode(clients)
 }
 
-func FindClientCT(db *sql.DB, rw http.ResponseWriter, login string) {
+func FindClientCT(db *sql.DB, login string) models.Client {
 	var clients []models.Client
 	clients = repositories.FindClientDB(login, db, clients)
-	json.NewEncoder(rw).Encode(clients)
+	return clients[0]
 }
 
 func DeleteClientCT(db *sql.DB, rw http.ResponseWriter, holder string) {
