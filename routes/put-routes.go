@@ -25,7 +25,7 @@ func ReserveWarehouse(db *sql.DB, authDB []models.Authorize) http.HandlerFunc {
 			} else {
 				utils.JsonResponse("Warehouse holder name is empty", false, rw)
 			}
-			if warehouse.CompanyID != "" && warehouse.IsReserved == true && warehouse.DateTillReserved != "" {
+			if warehouse.CompanyID != "" && warehouse.IsReserved && warehouse.DateTillReserved != "" {
 				a := controllers.ReserveWarehouseCT(db, warehouse)
 				res := strconv.FormatInt(a, 10)
 				utils.JsonResponse(res, true, rw)
